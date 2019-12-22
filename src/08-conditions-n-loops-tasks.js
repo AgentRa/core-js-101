@@ -312,8 +312,21 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  const open = '[({<';
+  const close = '])}>';
+  for (let i = 0; i < arr.length; i += 1) {
+    if (close.includes(arr[i])) {
+      let n = i - 1;
+      while (arr[n] === 0) n -= 1;
+      if (arr[n] === open[close.indexOf(arr[i])]) {
+        arr[n] = 0;
+        arr[i] = 0;
+      }
+    }
+  }
+  return arr.every((elem) => elem === 0);
 }
 
 
@@ -337,8 +350,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -346,7 +359,7 @@ function toNaryString(/* num, n */) {
  * Returns the commom directory path for specified array of full filenames.
  *
  * @param {array} pathes
- * @return {string}
+ * @return {function(): *}
  *
  * @example:
  *   ['/web/images/image1.png', '/web/images/image2.png']  => '/web/images/'
@@ -377,8 +390,22 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rowsA = m1.length;
+  const colsA = m1[0].length;
+  const rowsB = m2.length;
+  const colsB = m2[0].length;
+  const m3 = [];
+  if (colsA !== rowsB) return false;
+  for (let i = 0; i < rowsA; i += 1) m3[i] = [];
+  for (let k = 0; k < colsB; k += 1) {
+    for (let i = 0; i < rowsA; i += 1) {
+      let t = 0;
+      for (let j = 0; j < rowsB; j += 1) t += m1[i][j] * m2[j][k];
+      m3[i][k] = t;
+    }
+  }
+  return m3;
 }
 
 
@@ -412,8 +439,23 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < 3; i += 1) {
+    const x = position[i].reduce((accum, item) => accum + item, '');
+    if (x === '000') return '0';
+    if (x === 'XXX') return 'X';
+  }
+  for (let i = 0; i < 3; i += 1) {
+    const x = position[0][i] + position[1][i] + position[2][i];
+    if (x === '000') return '0';
+    if (x === 'XXX') return 'X';
+  }
+
+  if (position[0][0] + position[1][1] + position[2][2] === 'XXX') return 'X';
+  if (position[0][0] + position[1][1] + position[2][2] === '000') return '0';
+  if (position[0][2] + position[1][1] + position[2][0] === 'XXX') return 'X';
+  if (position[0][2] + position[1][1] + position[2][0] === '000') return '0';
+  return undefined;
 }
 
 
